@@ -5,7 +5,7 @@
 	    <ul class="side-menu-list">
 	        <li class="grey with-sub">
             <li class="red">
-	            <a href="#">
+	            <a href="../Home/index.php">
 				<i class="tag-color green"></i>
 	                <span class="lbl">Inicio</span>
 	            </a>
