@@ -21,8 +21,20 @@ function guardaryeditar(e){
         contentType:false,
         processData:false,
         success: function(data){
-            console.log(data);
-            data = JSON.parse(data);
+           /*  console.log(data); */
+        
+            $('#tick_titulo').val('');
+            $('#tick_descrip').summernote('reset');
+
+            swal.fire({
+                icon: 'success',
+                title: 'Ticket Registrado',
+                text:'En el sistema',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+
             
         }
 
