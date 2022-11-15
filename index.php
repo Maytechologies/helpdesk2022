@@ -37,12 +37,14 @@ if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
     <div class="page-center">
         <div class="page-center-in">
             <div class="container-fluid">
+                
+                <input type="hidden" id="rol_id" value="1">
+
                 <form class="sign-box" action="" method="POST" id="login_form">
                     <div class="sign-avatar">
                         <img src="public/img/avatar-sign.png" alt="">
                     </div>
-                    <header class="sign-title">Acceso</header>
-
+                     <header class="sign-title" id="lbltitulo">Modulo de Usuarios</header>
                     <?php
 
                     if (isset($_GET["m"])) {
@@ -85,6 +87,9 @@ if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
                         <input type="password" id="usu_pass" name="usu_pass" class="form-control" placeholder="Password" />
                     </div>
                     <div class="form-group">
+                        <div class="float-left reset">
+                            <a href="#" id="btnsoporte">Login Soporte</a>
+                        </div>
                         <div class="float-right reset">
                             <a href="reset-password.html">Cambiar Contraseña</a>
                         </div>
@@ -124,6 +129,7 @@ if (isset($_POST["enviar"]) and $_POST["enviar"] == "si") {
         });
     </script>
     <script src="public/js/app.js"></script>
+    <script type="text/javascript" src="login.js"></script>
 </body>
 
 </html>
