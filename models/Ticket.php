@@ -26,6 +26,8 @@
         tm_ticket.tick_id,
         tm_ticket.tick_titulo,
         tm_ticket.usu_id,
+        tm_ticket.tick_descrip,
+        tm_ticket.fech_crea,
         tm_categoria.cat_nom
         
         FROM 
