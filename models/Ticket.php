@@ -5,8 +5,8 @@
      public function insert_ticket($usu_id,$cat_id,$tick_titulo,$tick_descrip ){
         $conectar =parent::conexion();
         parent::set_names();
-        $Sql="INSERT INTO tm_ticket (tick_id,usu_id,cat_id,tick_titulo,tick_descrip,est)
-        VALUES (NULL, ?, ?, ?,?, '1');";
+        $Sql="INSERT INTO tm_ticket (tick_id,usu_id,cat_id,tick_titulo,tick_descrip, fech_crea, est)
+        VALUES (NULL, ?, ?, ?,?, now(),'1');";
         $Sql=$conectar->prepare($Sql);
         
         $Sql->bindValue(1, $usu_id);
@@ -35,7 +35,7 @@
        
         WHERE
         tm_ticket.est = 1
-        AND tm_usuario.usu_id = ?";
+        AND tm_usuario.usu_id=?";
         $sql=$conectar->prepare($sql);
         $sql->bindValue(1, $usu_id);
         $sql->execute();

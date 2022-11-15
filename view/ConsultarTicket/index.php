@@ -46,7 +46,7 @@ if (isset($_SESSION["usu_id"])){
 								<th style="width: 10%;">Nro.Ticket</th>
 								<th style="width: 15%;">Categoria</th>
 								<th class="d-none d-sm-table-cell" style="width: 40%;">Titulo</th>
-								<th class="text-center" style="width: 15%;"></th>
+								<th class="text-center" style="width: 15%;">Acciones</th>
 							
 							</tr>
 						</thead>

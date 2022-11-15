@@ -7,6 +7,8 @@ function init(){
 
 $(document).ready(function(){
 
+    console.log("$results");
+
     tabla=$('#ticket_data').dataTable({
         "aProcessing": true,
         "aServerSide": true,
@@ -26,7 +28,7 @@ $(document).ready(function(){
             dataType : "json",
             data:{ usu_id : 1},
             error: function(e){
-                 console.log(e.responseText);
+                 
             }
         },
         "ordering": false,
@@ -62,6 +64,11 @@ $(document).ready(function(){
     }).DataTable();  
 
 });
+
+
+function ver(tick_id){
+    console.log(tick_id);
+}
 
 
 init();
