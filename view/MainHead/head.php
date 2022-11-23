@@ -11,6 +11,10 @@
 	<link href="../../public/img/faq-1.png" rel="icon" type="image/png">
 	<link href="../../public/img/faq-1.png" rel="shortcut icon">
 
+    <!-- Links For Activity -> Detalle tickets -->
+	<link rel="stylesheet" href="../../public/css/separate/vendor/fancybox.min.css">
+    <link rel="stylesheet" href="../../public/css/separate/pages/activity.min.css">
+
 	 <!-- link for summerNote and Editor textarea -->
 	<link rel="stylesheet" href="../../public/css/lib/summernote/summernote.css"/>
     <link rel="stylesheet" href="../../public/css/separate/pages/editor.min.css">
