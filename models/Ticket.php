@@ -74,5 +74,31 @@
           return $resultado=$sql->fetchAll();
           /* pdo::FETCH_ASSOC */
       }
+
+      /* TODO: Listar detallas de ticket segun id del ticket */
+     public function listar_ticketdetalles_x_ticket($tick_id){
+      $conectar= parent::conexion();
+      parent::set_names();
+
+      $sql="SELECT 
+      d.tickd_id,
+      d.tickd_descrip,
+      d.fech_crea,
+      u.usu_nom,
+      u.usu_apep,
+      u.rol_id,
+      r.rol_nom
+      FROM 
+      td_ticketdetalle as d
+      INNER JOIN tm_usuario as u ON d.usu_id = u.usu_id
+      INNER JOIN tm_rol as r ON u.rol_id = r.rol_id
+      WHERE tick_id =?";
+
+      $sql=$conectar->prepare($sql);
+      $sql->bindValue(1, $tick_id);
+      $sql->execute();
+      return $resultado=$sql->fetchAll();
+      /* pdo::FETCH_ASSOC */
+  }
   }
 ?>

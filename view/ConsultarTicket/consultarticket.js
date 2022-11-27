@@ -125,9 +125,14 @@ $(document).ready(function(){
 });
 
 
+
+
 function ver(tick_id){
-    console.log(tick_id);
+
+   window.open('http://localhost/helpdesk/view/Detalleticket/?ID='+tick_id+'');
 }
+
+
 
 
 init();
