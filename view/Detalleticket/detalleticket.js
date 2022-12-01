@@ -7,8 +7,21 @@ $(document).ready(function(){
     var tick_id = getUrlParameter('ID');
 
     $.post("../../controller/ticket.php?op=listardetalle", {tick_id: tick_id}, function(data) {
-      console.log(data);
       $('#lbldetalle').html(data);
+    });
+
+    $('#tick_descrip').summernote({
+        height:150,
+        lang: "es-ES",
+        callbacks:{
+            OnImageUpload: function(imagen){
+                console.log("Imagen detec..");
+                myimagetreat(image[0]);
+            },
+            onPaste: function(e){
+                console.log("Text detect..");
+            }
+        }
     });
  
 });

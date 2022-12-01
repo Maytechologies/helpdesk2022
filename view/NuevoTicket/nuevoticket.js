@@ -5,7 +5,19 @@ function init(){
 }
 
 $(document).ready(function() {
-    $('#tick_descrip').summernote();
+    $('#tick_descrip').summernote({
+        height:150,
+        lang: "es-ES",
+        callbacks:{
+            OnImageUpload: function(imagen){
+                console.log("Imagen detec..");
+                myimagetreat(image[0]);
+            },
+            onPaste: function(e){
+                console.log("Text detect..");
+            }
+        }
+    });
     $.post("../../controller/categoria.php?op=combo", function(data, status){
         $('#cat_id').html(data);
     })
