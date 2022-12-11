@@ -18,39 +18,60 @@ $(document).ready(function() {
             }
         }
     });
+    
+    /* TODO:Mostramos el listado de categorias */
     $.post("../../controller/categoria.php?op=combo", function(data, status){
         $('#cat_id').html(data);
     })
 });
 
 function guardaryeditar(e){
+
     e.preventDefault();
     var formData = new FormData($("#ticket_form")[0]);
-    $.ajax({
-        url:"../../controller/ticket.php?op=insert",
-        type:"POST",
-        data:formData,
-        contentType:false,
-        processData:false,
-        success: function(data){
-           /*  console.log(data); */
-        
-            $('#tick_titulo').val('');
-            $('#tick_descrip').summernote('reset');
 
-            swal.fire({
-                icon: 'success',
-                title: 'Ticket Registrado',
-                text:'En el sistema',
-                showConfirmButton: false,
-                timer: 1500
-            });
+    /* TODO:Validamos que los campos del formulario nuevo ticket no lleguen vacios */
+    if($('#tick_descrip').summernote('isEmpty') || $('#tick_titulo').val()==''){
 
-
+        swal.fire({
+            icon: 'warning',
+            title: 'Campos Faltantes',
+            text:'En el registro',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    
+     }else{
+        $.ajax({
+            url:"../../controller/ticket.php?op=insert",
+            type:"POST",
+            data:formData,
+            contentType:false,
+            processData:false,
+            success: function(data){
+                console.log(data); 
             
-        }
+                $('#tick_titulo').val('');
+                $('#tick_descrip').summernote('reset');
 
-    });
+                swal.fire({
+                    icon: 'success',
+                    title: 'Ticket Registrado',
+                    text:'En el sistema',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+
+                
+            }
+
+        });
+
+}
+
+
+   
 }
 
 init();

@@ -19,7 +19,7 @@
 	
 	                    <div class="dropdown user-menu">
 	                        <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                            <img src="../../public/img/avatar-2-64.png" alt="">
+	                            <img src="../../public/img/<?php echo $_SESSION["rol_id"]?>.jpg" alt="">
 	                        </button>
 							<input type="hidden" id="user_idx" value="<?php echo $_SESSION["usu_id"]?>"> <!-- ID del Usuario -->
 							<input type="hidden" id="rol_idx" value="<?php echo $_SESSION["rol_id"]?>">  <!-- ROL del Usuario -->

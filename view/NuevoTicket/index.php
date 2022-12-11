@@ -57,7 +57,7 @@ if (isset($_SESSION["usu_id"])) {
                                 <input type="hidden" name="usu_id" id="usu_id" value="<?php echo $_SESSION["usu_id"]?>">
                                 <fieldset class="form-group">
                                     <label class="form-label semibold" for="tick_titulo" >Titulo :</label>
-                                    <input type="text" class="form-control" id="tick_titulo" name="tick_titulo" placeholder="Ingrese el titulo del Ticket" required>
+                                    <input type="text" class="form-control" id="tick_titulo" name="tick_titulo" placeholder="Ingrese el titulo del Ticket">
                                 </fieldset>
                             </div>
                             <div class="col-lg-12">
