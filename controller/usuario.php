@@ -11,10 +11,10 @@
             if(empty($_POST["usu_id"])){
 
                 
-                $usuario->insert_usuario($_POST["usu_nom"], $_POST["usu_apep"], $_POST["usu_correo"], $_POST["usu_pass"], $_POST["rol_id"]);
+                $usuario->insert_usuario($_POST["usu_nom"], $_POST["usu_apep"], $_POST["usu_correo"], $_POST["rol_id"], $_POST["usu_pass"]);
                 
             }else{
-                $usuario->update_usuario($_POST["usu_id"],$_POST["usu_nom"], $_POST["usu_apep"], $_POST["usu_correo"], $_POST["usu_pass"], $_POST["rol_id"]);
+                $usuario->update_usuario($_POST["usu_id"],$_POST["usu_nom"], $_POST["usu_apep"], $_POST["usu_correo"], $_POST["rol_id"], $_POST["usu_pass"]);
 
             }
         break;
@@ -38,7 +38,7 @@
                 }
 
 
-                $sub_array[] = date("d/m/Y  H:i", strtotime($row["fech_crea"]));
+                $sub_array[] = date("d/m/Y", strtotime($row["fech_crea"]));
 
                 $sub_array[] = '<button type="button" onClick="editar('.$row["usu_id"].');"  id="'.$row["usu_id"].'" class="btn btn-inline btn-warning btn-sm ladda-button"><i class="font-icon font-icon-speed"></i></button>';
                 $sub_array[] = '<button type="button" onClick="eliminar('.$row["usu_id"].');"  id="'.$row["usu_id"].'" class="btn btn-inline btn-danger btn-sm ladda-button"><i class="fa fa-trash"></i></button>';
@@ -77,6 +77,60 @@
             echo json_encode($output);
            }
         break;
+
+       /*  TODO:METODOS Y SERVICIOS PARA MOSTRAR LA CANTIDAD TOTAL DE TICKETS, TOTAL ABIERTOS TOTAL CERRADOS POR USUARIO */
+
+         /* TODO:Metodo mostar total ticket por Usuario del Controlador Usuario  por id*/
+        case"total":
+           $datos=$usuario->get_totalticket_x_id($_POST["usu_id"]);
+           if(is_array($datos)==true and count($datos)>0){  
+             foreach($datos as $row)
+            {
+                $output["total"] = $row["total"];
+            }
+             
+            echo json_encode($output);
+           }   
+        break;
+  
+
+        /* TODO:Metodo mostar el total tickets Abierto por Usuario del Controlador Usuario  por id*/
+        case"totalabierto":
+            $datos=$usuario->get_totalticket_abierto_x_id($_POST["usu_id"]);
+            if(is_array($datos)==true and count($datos)>0){  
+              foreach($datos as $row)
+             {
+                 $output["total"] = $row["total"];
+             }
+              
+             echo json_encode($output);
+            }   
+        break;
+
+
+         /* TODO:Metodo mostar el total tickets Cerrado por Usuario del Controlador Usuario  por id*/
+        case"totalcerrado":
+            $datos=$usuario->get_totalticket_cerrado_x_id($_POST["usu_id"]);
+            if(is_array($datos)==true and count($datos)>0){  
+              foreach($datos as $row)
+             {
+                 $output["total"] = $row["total"];
+             }
+              
+             echo json_encode($output);
+            }   
+        break;
+
+
+
+         /* TODO:Metodo mostrar graficos estadisticos Cant de ticket x Categoria */
+        case 'grafico':
+        
+            $datos=$usuario->get_usuario_grafico($_POST["usu_id"]);
+     
+            echo json_encode($datos);
+     
+         break;
 
 
     

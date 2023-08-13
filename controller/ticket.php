@@ -181,6 +181,61 @@ switch ($_GET["op"]) {
     /* Enviamos por medio de POST los datos necesarios para el registro en la tabla td_ticketdetalle */
    break;
 
+   /* TODO:METODOS Y SERVICIOS PARA CONTAR TOTAS DE TICKETS, ABIERTOS Y CERRADOS */
+
+    /* TODO:Metodo mostar total tickets del Controlador tickets*/
+    case"total":
+        $datos=$ticket->get_totalticket();
+        if(is_array($datos)==true and count($datos)>0){  
+          foreach($datos as $row)
+         {
+             $output["total"] = $row["total"];
+         }
+          
+         echo json_encode($output);
+        }   
+    break;
+
+
+     /* TODO:Metodo mostar el total tickets Abiertos del Controlador tickets*/
+     case"totalabierto":
+         $datos=$ticket->get_totalticket_abiertos();
+         if(is_array($datos)==true and count($datos)>0){  
+           foreach($datos as $row)
+          {
+              $output["total"] = $row["total"];
+          }
+           
+          echo json_encode($output);
+         }   
+    break;
+
+
+      /* TODO:Metodo mostar el total tickets Cerrados del Controlador tickets*/
+    case"totalcerrado":
+         $datos=$ticket->get_totalticket_cerrados();
+         if(is_array($datos)==true and count($datos)>0){  
+           foreach($datos as $row)
+          {
+              $output["total"] = $row["total"];
+          }
+           
+          echo json_encode($output);
+         }   
+    break;
+
+
+
+
+    /* TODO:Metodo Mostrar Datos estadisticos Cantidad de tickets x Categorias */
+    case 'grafico':
+        
+       $datos=$ticket->get_ticket_grafico();
+
+       echo json_encode($datos);
+
+    break;
+
 
 
 }

@@ -28,10 +28,10 @@ function guardaryeditar(e){
                 title: 'Registro Efectuado',
                 text:'Con Exito',
                 showConfirmButton: false,
-                timer: 1000
+                timer: 1500
             });
 
-             location.reload(); 
+             location.reload();  /* Recargar la pagina actual */
 
  
            
@@ -169,7 +169,7 @@ $('#usu_id').val('');
 $('#titulo').html('Nuevo Registro')
 
 /* TODO:Metodo para resetear formulario  */
-$('#usuario_form')[0].reset();
+/* $('#usuario_form')[0].reset(); */
 
 /* TODO:Mostrar Modal */
 $('#modaluser').modal('show');

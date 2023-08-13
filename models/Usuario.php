@@ -14,8 +14,8 @@
                 exit;
 
              }else{
-                /*  TODO:Consulta SQL a tabra usuario para validar su existencia */
-                $Sql="SELECT *FROM tm_usuario WHERE usu_correo=? AND usu_pass=? AND rol_id=? AND est=1";
+                /*  TODO:Consulta SQL a tabla usuario para validar su existencia */
+                $Sql="call SP_L_USER_EXIST (?,?,?)";
                 $stmt=$conectar->prepare($Sql);
                 $stmt->bindValue(1, $correo);
                 $stmt->bindValue(2, $pass);
@@ -25,7 +25,7 @@
                   /* TODO:Verificamos que el resultado de la consulta SQL sea un Array y su valor mayor a 0 */
                  if(is_array($resultado) and count($resultado)>0){
 
-                  /* TODO:Asignamos a variables de sesion los valores recibidos con la consulta SQL */
+                  /* TODO:Asignamos valores a variables de session los valores recibidos con la consulta SQL */
                    $_SESSION["usu_id"]=$resultado["usu_id"];
                    $_SESSION["usu_nom"]=$resultado["usu_nom"];
                    $_SESSION["usu_apep"]=$resultado["usu_apep"];
@@ -34,7 +34,8 @@
                    $_SESSION["est"]=$resultado["est"];
                    header("location:".Conectar::ruta()."view/Home/");
                    exit();
-
+                      
+                   /* TODO:Si no existe el usuario enviar por url m=1 */
                  }else{
                    header("location:".Conectar::ruta()."index.php?m=1");
                    exit();
@@ -44,36 +45,34 @@
         }
 
         /* TODO:Modelo para Insertar Usuario en DB */
-        public function insert_usuario($usu_nom, $usu_apep, $usu_correo, $usu_pass, $rol_id){
+        public function insert_usuario($usu_nom, $usu_apep, $usu_correo, $rol_id, $usu_pass){
           $conectar=parent::conexion();
           parent::set_names();
-          $Sql="INSERT INTO tm_usuario (usu_id, usu_nom, usu_apep, usu_correo, usu_pass, rol_id, fech_crea, fech_modi, fech_elim)
-          VALUES (NULL, ?, ?, ?, ?, ?, now(), NULL, NULL)";
+          $Sql="call SP_I_NEW_USER (?,?,?,?,?)";
                 $Sql=$conectar->prepare($Sql);
                 $Sql->bindValue(1, $usu_nom);
                 $Sql->bindValue(2, $usu_apep);
                 $Sql->bindValue(3, $usu_correo);
-                $Sql->bindValue(4, $usu_pass);
-                $Sql->bindValue(5, $rol_id);
+                $Sql->bindValue(4, $rol_id);
+                $Sql->bindValue(5, $usu_pass);
                 $Sql->execute();
               return $resultado=$Sql->fetchAll();
 
         }
 
         /* TODO:Modelo para Actualizar Usuario en DB */
-        public function update_usuario($usu_id, $usu_nom, $usu_apep, $usu_correo, $usu_pass, $rol_id){
+        public function update_usuario($usu_id, $usu_nom, $usu_apep, $usu_correo, $rol_id, $usu_pass){
           $conectar=parent::conexion();
           parent::set_names();
-          $Sql="UPDATE tm_usuario SET usu_nom =?, usu_apep =?, usu_correo =?, usu_pass =?, rol_id =?
-                WHERE usu_id =?";
+          $Sql="call SP_U_USER_01 (?,?,?,?,?,?)";
                 $Sql=$conectar->prepare($Sql);
                 
-                $Sql->bindValue(1, $usu_nom);
-                $Sql->bindValue(2, $usu_apep);
-                $Sql->bindValue(3, $usu_correo);
-                $Sql->bindValue(4, $usu_pass);
+                $Sql->bindValue(1, $usu_id);
+                $Sql->bindValue(2, $usu_nom);
+                $Sql->bindValue(3, $usu_apep);
+                $Sql->bindValue(4, $usu_correo);
                 $Sql->bindValue(5, $rol_id);
-                $Sql->bindValue(6, $usu_id);
+                $Sql->bindValue(6, $usu_pass);
                 $Sql->execute();
               return $resultado=$Sql->fetchAll();
           
@@ -83,7 +82,7 @@
         public function delete_usuario($usu_id){
           $conectar=parent::conexion();
           parent::set_names();
-          $Sql="UPDATE tm_usuario SET est= 0, fech_elim = now() WHERE usu_id =?";
+          $Sql="call SP_U_USER (?)";
           $Sql=$conectar->prepare($Sql);
           $Sql->bindValue(1, $usu_id);
           $Sql->execute();
@@ -95,7 +94,7 @@
         public function get_usuario(){
           $conectar=parent::conexion();
           parent::set_names();
-          $Sql="SELECT *FROM tm_usuario WHERE est=1";
+          $Sql="call SP_L_USERS";
           $Sql=$conectar->prepare($Sql);
           $Sql->execute();
           return $resultado=$Sql->fetchAll();
@@ -106,14 +105,65 @@
         public function get_usuario_x_id($usu_id){
           $conectar=parent::conexion();
           parent::set_names();
-          $Sql="SELECT *FROM tm_usuario WHERE usu_id=?";
+          $Sql="call SP_L_USER_X_ID (?)";
           $Sql=$conectar->prepare($Sql);
           $Sql->bindValue(1, $usu_id);
           $Sql->execute();
           return $resultado=$Sql->fetchAll();
           
         }
+
+        /* TODO:CONSULTA DE TOTAL TICKETS, TOTAL ABIERTOS Y TOTAL CERRADO */
+
+
+          /* TODO:Modelo para Listar Numero de Ticket por Usuario en DB */
+          public function get_totalticket_x_id($usu_id){
+            $conectar=parent::conexion();
+            parent::set_names();
+            $Sql="call SP_L_TOTAL_TICK_X_USU_ID(?)";
+            $Sql=$conectar->prepare($Sql);
+            $Sql->bindValue(1, $usu_id);
+            $Sql->execute();
+            return $resultado=$Sql->fetchAll();
+            
+          }
+
+           /* TODO:Modelo para Listar Numero de Ticket Abiertos por Usuario en DB */
+           public function get_totalticket_abierto_x_id($usu_id){
+            $conectar=parent::conexion();
+            parent::set_names();
+            $Sql="call SP_L_NUM_TICK_OPEN_USU_ID(?)";
+            $Sql=$conectar->prepare($Sql);
+            $Sql->bindValue(1, $usu_id);
+            $Sql->execute();
+            return $resultado=$Sql->fetchAll();
+            
+          }
+
+           /* TODO:Modelo para Listar Numero de Ticket Cerrados por Usuario en DB */
+           public function get_totalticket_cerrado_x_id($usu_id){
+            $conectar=parent::conexion();
+            parent::set_names();
+            $Sql="call SP_L_NUM_TICK_CLOSE_USU_ID(?)";
+            $Sql=$conectar->prepare($Sql);
+            $Sql->bindValue(1, $usu_id);
+            $Sql->execute();
+            return $resultado=$Sql->fetchAll();
+            
+          }
+
+
+          /* TODO:Consulta para graficos estadisticos Cant de ticket x Categoria */
+          public function get_usuario_grafico($usu_id){
+            $conectar=parent::conexion();
+            parent::set_names();
+            $Sql="call SP_L_CANT_TICK_USUARIO(?)";
+            $Sql=$conectar->prepare($Sql);
+            $Sql->bindValue(1, $usu_id);
+            $Sql->execute();
+            return $resultado=$Sql->fetchAll();
+            
+          }
+
+        
     }
-
-
-?>

@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-rounded btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" name="action" id="#" value="add" class="btn btn-rounded btn-success">Registrar</button>
+                    <button type="submit" name="action" value="add" class="btn btn-rounded btn-success">Registrar</button>
                 </div>
 
             </form>

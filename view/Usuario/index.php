@@ -48,7 +48,7 @@ if (isset($_SESSION["usu_id"])){
 								<th class="d-none d-sm-table-cell" style="width: 10%;">Correo</th>
 								<th class="d-none d-sm-table-cell" style="width: 5%;">Password</th>
 								<th class="d-none d-sm-table-cell" style="width: 2%;">Rol id</th>
-								<th class="d-none d-sm-table-cell" style="width: 8%;">Perfil</th>
+								<th class="d-none d-sm-table-cell" style="width: 5%;">Perfil</th>
 								<th class="d-none d-sm-table-cell" style="width: 10%;">Fecha</th>
 								<th class="text-center" style="width: 5%;">Editar</th>
 								<th class="text-center" style="width: 5%;">Eliminar</th>
