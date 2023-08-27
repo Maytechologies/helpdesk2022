@@ -54,12 +54,13 @@
     
         break;
 
-        /* TODO:Metodo Eliminar del Controlador Usuario */
+         /* TODO:Metodo Eliminar del Controlador Usuario */
         case "eliminar":
             $usuario->delete_usuario($_POST["usu_id"]);     
         break;
 
-         /* TODO:Metodo mostar del Controlador Usuario  por id*/
+
+          /* TODO:Metodo mostar del Controlador Usuario  por id*/
         case "mostrar";
             $datos=$usuario->get_usuario_x_id($_POST["usu_id"]);  
             if(is_array($datos)== true and count($datos)>0){
@@ -77,6 +78,18 @@
             echo json_encode($output);
            }
         break;
+
+        case 'combo':
+             $datos=$usuario->get_usuario_x_rol();
+             if(is_array($datos)==true and count($datos)>0){
+                $html.= "<option label='Seleccionar'></option>";
+                foreach($datos as $row)
+                {
+                    $html.= "<option value='".$row['usu_id']."'>".$row['usu_nom']."</option>";
+                }
+                echo $html;
+              }
+            break;
 
        /*  TODO:METODOS Y SERVICIOS PARA MOSTRAR LA CANTIDAD TOTAL DE TICKETS, TOTAL ABIERTOS TOTAL CERRADOS POR USUARIO */
 

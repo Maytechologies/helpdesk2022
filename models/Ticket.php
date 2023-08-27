@@ -2,16 +2,18 @@
   class Ticket extends Conectar{
 
     /* TODO:Insertar nuevo ticket */
-     public function insert_ticket($usu_id, $cat_id, $tick_titulo, $tick_descrip ){
+     public function insert_ticket($usu_id, $cat_id, $tick_titulo, $tick_descrip, $usu_asig, $fech_asig ){
         $conectar =parent::conexion();
         parent::set_names();
-        $Sql="call SP_I_NEW_TICK (?,?,?,?)";
+        $Sql="call SP_I_NEW_TICK (?,?,?,?,?,?)";
         $Sql=$conectar->prepare($Sql);
         
         $Sql->bindValue(1, $usu_id);
         $Sql->bindValue(2, $cat_id);
         $Sql->bindValue(3, $tick_titulo);
         $Sql->bindValue(4, $tick_descrip);
+        $Sql->bindValue(5, $usu_asig);
+        $Sql->bindValue(6, $fech_asig);
 
         $Sql->execute();
         return $resultado=$Sql->fetchAll();
@@ -111,6 +113,22 @@
 
       $Sql=$conectar->prepare($Sql);
       $Sql->bindValue(1, $tick_id);
+      $Sql->execute();
+      return $resultado=$Sql->fetchAll();
+    } 
+
+
+    /* TODO:Funcion Update_ticket que nos permite actualizar el campo usu_asig - fech_asig */
+    public function update_ticket_asignado($tick_id, $usu_asig ){
+      $conectar =parent::conexion();
+      parent::set_names();
+
+      /* TODO:Sentencia SQL para actualizar el campo tck_estado a Cerrado */
+      $Sql="call SP_U_EST_TICK_ASIGNADO(?,?)";
+
+      $Sql=$conectar->prepare($Sql);
+      $Sql->bindValue(1, $tick_id);
+      $Sql->bindValue(2, $usu_asig);
       $Sql->execute();
       return $resultado=$Sql->fetchAll();
     } 

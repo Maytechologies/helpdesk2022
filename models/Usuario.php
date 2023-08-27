@@ -1,7 +1,7 @@
 <?php
     class Usuario extends Conectar{
         
-        /* TODO:Definimos funcion de conexion */
+         /* TODO:Definimos funcion de conexion */
         public function login(){
           $conectar=parent::conexion();
           parent::set_names();
@@ -44,7 +44,7 @@
            }
         }
 
-        /* TODO:Modelo para Insertar Usuario en DB */
+         /* TODO:Modelo para Insertar Usuario en DB */
         public function insert_usuario($usu_nom, $usu_apep, $usu_correo, $rol_id, $usu_pass){
           $conectar=parent::conexion();
           parent::set_names();
@@ -60,7 +60,7 @@
 
         }
 
-        /* TODO:Modelo para Actualizar Usuario en DB */
+         /* TODO:Modelo para Actualizar Usuario en DB */
         public function update_usuario($usu_id, $usu_nom, $usu_apep, $usu_correo, $rol_id, $usu_pass){
           $conectar=parent::conexion();
           parent::set_names();
@@ -78,7 +78,7 @@
           
         }
 
-        /* TODO:Modelo para Eliminar del listado a Usuario camniando de est a 0 */
+         /* TODO:Modelo para Eliminar del listado a Usuario camniando de est a 0 */
         public function delete_usuario($usu_id){
           $conectar=parent::conexion();
           parent::set_names();
@@ -90,7 +90,7 @@
           
         }
 
-        /* TODO:Modelo para listar todos los registros al Recibir Array de tabla usuario de DB */
+         /* TODO:Modelo para listar todos los registros al Recibir Array de tabla usuario de DB */
         public function get_usuario(){
           $conectar=parent::conexion();
           parent::set_names();
@@ -101,7 +101,19 @@
           
         }
 
-        /* TODO:Modelo para Listar Usuario por ID de Usuario en DB */
+
+         /* TODO:Modelo para listar todos los registros al Recibir Array de tabla usuario por Rol */
+        public function get_usuario_x_rol(){
+          $conectar=parent::conexion();
+          parent::set_names();
+          $Sql="call SP_L_USERS_X_ROL";
+          $Sql=$conectar->prepare($Sql);
+          $Sql->execute();
+          return $resultado=$Sql->fetchAll();
+          
+        }
+
+         /* TODO:Modelo para Listar Usuario por ID de Usuario en DB */
         public function get_usuario_x_id($usu_id){
           $conectar=parent::conexion();
           parent::set_names();
@@ -113,7 +125,7 @@
           
         }
 
-        /* TODO:CONSULTA DE TOTAL TICKETS, TOTAL ABIERTOS Y TOTAL CERRADO */
+         /* TODO:CONSULTA DE TOTAL TICKETS, TOTAL ABIERTOS Y TOTAL CERRADO */
 
 
           /* TODO:Modelo para Listar Numero de Ticket por Usuario en DB */

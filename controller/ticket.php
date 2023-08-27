@@ -13,7 +13,7 @@ switch ($_GET["op"]) {
 
     case "insert":
 
-        $ticket->insert_ticket($_POST["usu_id"],$_POST["cat_id"],$_POST["tick_titulo"],$_POST["tick_descrip"]);
+        $ticket->insert_ticket($_POST["usu_id"],$_POST["cat_id"],$_POST["tick_titulo"],$_POST["tick_descrip"],$_POST["usu_asig"],$_POST["fech_asig"]);
         
     break;
 
@@ -24,6 +24,17 @@ switch ($_GET["op"]) {
         
     break;
 
+   
+
+    case "asignar": /* TODO:Enviamos a modelo Ticket y a su metodo update_ticket_asignado el campo tick_id, usu_asig usando POST */
+
+        $ticket->update_ticket_asignado($_POST["tick_id"], $_POST["usu_asig"]);
+       
+       
+    break;
+
+
+      /* Mostrar Ticke por usu_id */
     case "listar_x_usu":
         $datos=$ticket->listar_ticket_x_usu($_POST["usu_id"]);
         $data= Array();
@@ -40,6 +51,25 @@ switch ($_GET["op"]) {
             }
 
             $sub_array[] = date("d/m/Y  H:i", strtotime($row["fech_crea"]));
+
+
+             /* Fehca de Asignacion a Soporte */
+            if($row["fech_asig"] == null){
+                $sub_array[] = '<span class="label label-pill label-default">Sin Fecha</span>';
+              }else {
+                $sub_array[] = date("d/m/Y", strtotime($row["fech_asig"]));
+             }
+
+             /* Usuario Asignado al Ticket */
+             if($row["usu_asig"]==null){
+                $sub_array[] = '<span class="label label-pill label-warning">No Asignado</span>';
+              }else {
+                $datos1 = $usuario->get_usuario_x_id($row["usu_asig"]);
+                foreach($datos1 as $row1){
+                    $sub_array[]= '<span class="label label-pill label-danger">'.$row["usu_nom"].'</span>';
+                }  
+             }
+
             $sub_array[] = '<button type="button" onClick="ver('.$row["tick_id"].');"  id="'.$row["tick_id"].'" class="btn btn-inline btn-primary btn-sm ladda-button"><i class="fa fa-eye"></i></button>';
             $data[] = $sub_array;
           }
@@ -53,7 +83,7 @@ switch ($_GET["op"]) {
 
     break;
 
-
+    
     case "listar":
             $datos=$ticket->listar_ticket();
             $data= Array();
@@ -71,6 +101,27 @@ switch ($_GET["op"]) {
 
 
                 $sub_array[] = date("d/m/Y  H:i", strtotime($row["fech_crea"]));
+
+                  /* Fecha de Asignacion */
+                 if($row["fech_asig"]==null){
+                    $sub_array[] = '<span class="label label-pill label-default">Sin Fecha</span>';
+                  }else {
+                    $sub_array[] = date("d/m/Y", strtotime($row["fech_asig"]));
+                 }
+
+                    /* Usuario Asignado al Ticket */
+                    if($row["usu_asig"]==null){
+                        $sub_array[] = '<a onClick="asignar('.$row["tick_id"].');"><span class="label label-pill label-warning">No Asignado</span></a>';
+                    }else {
+                        $datos1 = $usuario->get_usuario_x_id($row["usu_asig"]);
+                        foreach($datos1 as $row1){
+                            $sub_array[]= '<span class="label label-pill label-success">'.$row1["usu_nom"].'</span>';
+                        }  
+                    }
+
+                 
+
+
                 $sub_array[] = '<button type="button" onClick="ver('.$row["tick_id"].');"  id="'.$row["tick_id"].'" class="btn btn-inline btn-primary btn-sm ladda-button"><i class="fa fa-eye"></i></button>';
                 $data[] = $sub_array;
               }
@@ -88,7 +139,7 @@ switch ($_GET["op"]) {
     case "listardetalle":
 
         $datos=$ticket->listar_ticketdetalles_x_ticket($_POST["tick_id"]);
-    ?>
+          ?>
             <?php
                foreach($datos as $row){
                 ?>
@@ -137,7 +188,7 @@ switch ($_GET["op"]) {
                <?php
                }
             ?>
-    <?php
+         <?php
     break;
 
     case "mostrar";
@@ -174,16 +225,17 @@ switch ($_GET["op"]) {
             }
     break;
 
-   /*  Generamos una funcion insertdetalle que utilizara los datos recibido desde el modelo "insert_ticketdetalle"  */
-   case "insertdetalle":
+      /*  Generamos una funcion insertdetalle que utilizara los datos recibido desde el modelo "insert_ticketdetalle"  */
+   
+    case "insertdetalle":
     /* recibimos desde la funcion javascrip los datos necesarios */
     $ticket->insert_ticketdetalle($_POST["tick_id"],$_POST["usu_id"],$_POST["tickd_descrip"]);
     /* Enviamos por medio de POST los datos necesarios para el registro en la tabla td_ticketdetalle */
-   break;
+    break;
 
-   /* TODO:METODOS Y SERVICIOS PARA CONTAR TOTAS DE TICKETS, ABIERTOS Y CERRADOS */
+    /* TODO:METODOS Y SERVICIOS PARA CONTAR TOTAS DE TICKETS, ABIERTOS Y CERRADOS */
 
-    /* TODO:Metodo mostar total tickets del Controlador tickets*/
+     /* TODO:Metodo mostar total tickets del Controlador tickets*/
     case"total":
         $datos=$ticket->get_totalticket();
         if(is_array($datos)==true and count($datos)>0){  
@@ -198,7 +250,7 @@ switch ($_GET["op"]) {
 
 
      /* TODO:Metodo mostar el total tickets Abiertos del Controlador tickets*/
-     case"totalabierto":
+    case"totalabierto":
          $datos=$ticket->get_totalticket_abiertos();
          if(is_array($datos)==true and count($datos)>0){  
            foreach($datos as $row)

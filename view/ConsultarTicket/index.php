@@ -48,7 +48,9 @@ if (isset($_SESSION["usu_id"])){
 								<th class="d-none d-sm-table-cell" style="width: 20%;">Titulo</th>
 								<th class="d-none d-sm-table-cell" style="width: 5%;">Estado</th>
 								<th class="d-none d-sm-table-cell" style="width: 8%;">Fecha</th>
-								<th class="text-center" style="width: 15%;">Acciones</th>
+								<th class="d-none d-sm-table-cell" style="width: 8%;">Fecha Asig</th>
+								<th class="d-none d-sm-table-cell" style="width: 8%;">Soporte</th>
+								<th class="text-center" style="width: 4%;">ver</th>
 							
 							</tr>
 						</thead>
@@ -65,7 +67,10 @@ if (isset($_SESSION["usu_id"])){
 	<!-- Contenido -->
 
 
+    <!-- Llamamos al Modal -->
+	<?php require_once("Modal.php");?>
 
+      <!-- Vinculamos el Js de consultarticket -->
 	<?php require_once("../MainJs/js.php");?>
 	<script type="text/javascript" src="consultarticket.js"></script>
 </body>

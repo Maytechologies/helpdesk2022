@@ -4,10 +4,23 @@ var rol_id = $('#rol_idx').val();
 
 function init(){
 
+    $("#ticket_form").on("submit", function(e){
+        guardar(e);
+       });
 
 }
 
 $(document).ready(function(){
+
+
+  
+
+
+    $.post("../../controller/usuario.php?op=combo", function(data){
+        console.log(data);
+        $('#usu_asig').html(data);
+    });
+
 
     if (rol_id==1) {
         
@@ -130,6 +143,58 @@ $(document).ready(function(){
 function ver(tick_id){
 
    window.open('http://localhost/helpdesk/view/Detalleticket/?ID='+tick_id+'');
+}
+
+
+
+/* Asignamos valor al input tick_id que se encuentra hidden en el Modal */
+function asignar(tick_id){
+     /* TODO:Capturamos desde el controler ticket.php los datos necesarios y pasar por JSON a la vista */
+     $.post("../../controller/ticket.php?op=mostrar", {tick_id:tick_id}, function(data){
+        data = JSON.parse(data);
+        $('#tick_id').val(data.tick_id);
+         
+
+        /* Asignamos Titulo al Modal */
+        $('#mdtitulo').html('Asignar Soporte');
+        $("#modal").modal('show');/* Mostramos el modal */
+    });
+    
+}
+
+
+/* TODO:Creamos la funcion con doble proposito Guardar ó Editar si llega con usu_id */
+function guardar(e){
+    e.preventDefault();
+    var formData = new FormData($("#ticket_form")[0]);
+    console.log(formData);
+    $.ajax({
+        url: "../../controller/ticket.php?op=asignar",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(datos){
+            console.log(datos);
+            $('#ticket_data').DataTable().ajax.reload(); 
+            $('#modal').modal('hide');
+            
+            swal.fire({
+                icon: 'success',
+                title: 'Asignación Efectuada',
+                text:'Con Exito',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+             location.reload();  /* Recargar la pagina actual */
+
+ 
+           
+        }
+
+
+    });
 }
 
 
