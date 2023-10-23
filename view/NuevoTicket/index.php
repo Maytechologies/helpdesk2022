@@ -45,7 +45,9 @@ if (isset($_SESSION["usu_id"])) {
 
                     <div class="row">
                         <form method="post" id="ticket_form">
-                            <div class="col-lg-6">
+                        <input type="hidden" name="usu_id" id="usu_id" value="<?php echo $_SESSION["usu_id"]?>">
+
+                            <div class="col-lg-4">
                                 <fieldset class="form-group">
                                     <label class="form-label semibold" for="cat_id">Categoria :</label>
                                     <select class="form-control" id="cat_id" name="cat_id">
@@ -53,25 +55,38 @@ if (isset($_SESSION["usu_id"])) {
                                     </select>
                                 </fieldset>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="hidden" name="usu_id" id="usu_id" value="<?php echo $_SESSION["usu_id"]?>">
+                            
+                            <div class="col-lg-8">
+                                
                                 <fieldset class="form-group">
                                     <label class="form-label semibold" for="tick_titulo" >Titulo :</label>
                                     <input type="text" class="form-control" id="tick_titulo" name="tick_titulo" placeholder="Ingrese el titulo del Ticket">
                                 </fieldset>
                             </div>
+
+
                             <div class="col-lg-12">
+                                <fieldset class="form-group mb-5">
+                                    <label class="form-label semibold" for="exampleInput">Documentos Adicionales</label>
+                                    <input type="file" name="fileElem" id="fileElem" multiple>
+                                </fieldset>
+						   </div>
+
+
+                            <div class="col-lg-12 mt-5">
                                 <fieldset class="form-group">
-                                    <label class="form-label semibold" for="tick_descrip">Descripción :</label>
+                                    <label class="form-label semibold" for="tick_descrip">Descripción Detallada:</label>
                                     <div class="summernote-theme-1">
-                                        <textarea id="tick_descrip" class="summernote" name="tick_descrip" name="name"></textarea>
+                                        <textarea id="tick_descrip" class="summernote" name="tick_descrip"></textarea>
                                     </div>
                                 </fieldset>
                             </div>
+                         
+
                             <div class="row text-center">
-                            <div class="col-lg-12">
-                            <button type="submit" name="action" value="add" class="btn btn-rounded btn-inline btn-primary">Registrar</button>
-                            </div>
+                                <div class="col-lg-12">
+                                     <button type="submit" name="action" value="add" class="btn btn-rounded btn-inline btn-primary">Registrar</button>
+                                </div>
                             </div>
                         </form>
                     </div>

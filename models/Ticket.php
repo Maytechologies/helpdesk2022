@@ -2,22 +2,22 @@
   class Ticket extends Conectar{
 
     /* TODO:Insertar nuevo ticket */
-     public function insert_ticket($usu_id, $cat_id, $tick_titulo, $tick_descrip, $usu_asig, $fech_asig ){
+     public function insert_ticket($usu_id, $cat_id, $tick_titulo, $tick_descrip ){
         $conectar =parent::conexion();
         parent::set_names();
-        $Sql="call SP_I_NEW_TICK (?,?,?,?,?,?)";
+        $Sql="call SP_I_NEW_TICK (?,?,?,?)";
         $Sql=$conectar->prepare($Sql);
         
         $Sql->bindValue(1, $usu_id);
         $Sql->bindValue(2, $cat_id);
         $Sql->bindValue(3, $tick_titulo);
         $Sql->bindValue(4, $tick_descrip);
-        $Sql->bindValue(5, $usu_asig);
-        $Sql->bindValue(6, $fech_asig);
-
         $Sql->execute();
-        return $resultado=$Sql->fetchAll();
-     } 
+
+        return $resultado = $Sql->fetchAll(pdo::FETCH_ASSOC);
+
+      }
+     
 
        /* TODO: Mostrar ticket segun id de ticket */
       public function listar_ticket_x_id($tick_id){
@@ -92,7 +92,7 @@
       parent::set_names();
 
       /* TODO:SENTENCIA SQL PARA INSERTAR NUEVO REGISTRO A TICKETDETALLE */
-      $sql="SP_I_TICKET_DET(?,?,?)";
+      $sql="call SP_I_TICKET_DET(?,?,?)";
         $sql=$conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
         $sql->bindValue(2, $usu_id);
@@ -104,7 +104,7 @@
     }
 
       /* TODO:Funcion Update_ticket que nos permite actualizar el campo tick_estado a "Cerrado" */
-     public function update_ticket($tick_id ){
+    public function update_ticket($tick_id ){
       $conectar =parent::conexion();
       parent::set_names();
 
@@ -148,6 +148,8 @@
             
     }
 
+    
+
     /* TODO:Modelo para Listar Numero de Ticket Abiertos por Usuario en DB */
     public function get_totalticket_abiertos(){
             $conectar=parent::conexion();
@@ -171,7 +173,7 @@
     }
 
 
-      /* TODO:Consulta para graficos estadisticos Cant de ticket x Categoria */
+    /* TODO:Consulta para graficos estadisticos Cant de ticket x Categoria */
     public function get_ticket_grafico(){
       $conectar=parent::conexion();
       parent::set_names();

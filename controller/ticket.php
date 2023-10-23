@@ -7,15 +7,57 @@ require_once("../models/Usuario.php");
 $usuario = new Usuario();
 
 
+require_once("../models/Documento.php");
+$documento = new Documento();
+
+
 
 
 switch ($_GET["op"]) {
 
     case "insert":
 
-        $ticket->insert_ticket($_POST["usu_id"],$_POST["cat_id"],$_POST["tick_titulo"],$_POST["tick_descrip"],$_POST["usu_asig"],$_POST["fech_asig"]);
+        $datos = $ticket->insert_ticket(
+            $_POST["usu_id"],
+            $_POST["cat_id"],
+            $_POST["tick_titulo"],
+            $_POST["tick_descrip"]);
+
+         if (is_array($datos)==true and count($datos)>0){
+            foreach ($datos as $row){
+                $output["tick_id"] = $row["tick_id"];
+
+                //Aqui gestionamos la captura e insercion de los archivos adicionales
+
+                if ($_FILES['files']['name']==0){
+
+                }else{
+                    $countfiles = count($_FILES['files']['name']);
+                    $ruta = "../public/documento/".$output["tick_id"]."/"; //Ruta donde se almacenaran los archivos
+                    $files_arr = array();
+
+                    if (!file_exists($ruta)) { //si no esxite la ruta creala con los permisos
+                        mkdir($ruta, 0777, true);
+                    }
+
+                    for ($index = 0; $index < $countfiles; $index++) {
+                        $doc1 = $_FILES['files']['tmp_name'][$index];
+                        $destino = $ruta.$_FILES['files']['name'][$index];
+                        
+                        //Ejecutamos el metodo insert_documento del Models Docuemnto e insertamos registro
+                        $documento->insert_documento( $output["tick_id"],$_FILES['files']['name'][$index]);
+
+                        move_uploaded_file($doc1,$destino);
+                    }
+                }
+            }
+        } 
+
+            echo json_encode($datos);
         
     break;
+
+
 
     case "update": /* TODO:Enviamos a modelo Ticket y a su metodo update_ticket el campo tick_id usando POST */
 
@@ -61,14 +103,14 @@ switch ($_GET["op"]) {
              }
 
              /* Usuario Asignado al Ticket */
-             if($row["usu_asig"]==null){
+             /* if($row["usu_asig"]==null){
                 $sub_array[] = '<span class="label label-pill label-warning">No Asignado</span>';
               }else {
                 $datos1 = $usuario->get_usuario_x_id($row["usu_asig"]);
                 foreach($datos1 as $row1){
                     $sub_array[]= '<span class="label label-pill label-danger">'.$row["usu_nom"].'</span>';
                 }  
-             }
+             } */
 
             $sub_array[] = '<button type="button" onClick="ver('.$row["tick_id"].');"  id="'.$row["tick_id"].'" class="btn btn-inline btn-primary btn-sm ladda-button"><i class="fa fa-eye"></i></button>';
             $data[] = $sub_array;
@@ -84,6 +126,7 @@ switch ($_GET["op"]) {
     break;
 
     
+
     case "listar":
             $datos=$ticket->listar_ticket();
             $data= Array();
@@ -110,14 +153,14 @@ switch ($_GET["op"]) {
                  }
 
                     /* Usuario Asignado al Ticket */
-                    if($row["usu_asig"]==null){
+                     if($row["usu_asig"]==null){
                         $sub_array[] = '<a onClick="asignar('.$row["tick_id"].');"><span class="label label-pill label-warning">No Asignado</span></a>';
                     }else {
                         $datos1 = $usuario->get_usuario_x_id($row["usu_asig"]);
                         foreach($datos1 as $row1){
                             $sub_array[]= '<span class="label label-pill label-success">'.$row1["usu_nom"].'</span>';
                         }  
-                    }
+                    } 
 
                  
 
@@ -191,6 +234,8 @@ switch ($_GET["op"]) {
          <?php
     break;
 
+
+
     case "mostrar";
             $datos=$ticket->listar_ticket_x_id($_POST["tick_id"]);  
             if(is_array($datos)==true and count($datos)>0){
@@ -228,10 +273,12 @@ switch ($_GET["op"]) {
       /*  Generamos una funcion insertdetalle que utilizara los datos recibido desde el modelo "insert_ticketdetalle"  */
    
     case "insertdetalle":
-    /* recibimos desde la funcion javascrip los datos necesarios */
-    $ticket->insert_ticketdetalle($_POST["tick_id"],$_POST["usu_id"],$_POST["tickd_descrip"]);
-    /* Enviamos por medio de POST los datos necesarios para el registro en la tabla td_ticketdetalle */
+        /* recibimos desde la funcion javascrip los datos necesarios */
+        $ticket->insert_ticketdetalle($_POST["tick_id"],$_POST["usu_id"],$_POST["tickd_descrip"]);
+        /* Enviamos por medio de POST los datos necesarios para el registro en la tabla td_ticketdetalle */
     break;
+
+
 
     /* TODO:METODOS Y SERVICIOS PARA CONTAR TOTAS DE TICKETS, ABIERTOS Y CERRADOS */
 
@@ -261,7 +308,7 @@ switch ($_GET["op"]) {
           echo json_encode($output);
          }   
     break;
-
+    
 
       /* TODO:Metodo mostar el total tickets Cerrados del Controlador tickets*/
     case"totalcerrado":
@@ -277,8 +324,6 @@ switch ($_GET["op"]) {
     break;
 
 
-
-
     /* TODO:Metodo Mostrar Datos estadisticos Cantidad de tickets x Categorias */
     case 'grafico':
         
@@ -290,5 +335,5 @@ switch ($_GET["op"]) {
 
 
 
-}
+  }
     ?>

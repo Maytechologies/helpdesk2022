@@ -33,53 +33,81 @@ $(document).ready(function() {
     })
 });
 
+
+
 function guardaryeditar(e){
-
     e.preventDefault();
+    /* TODO: Array del form ticket */
     var formData = new FormData($("#ticket_form")[0]);
+    /* TODO: validamos si los campos tienen informacion antes de guardar */
 
-    /* TODO:Validamos que los campos del formulario nuevo ticket no lleguen vacios */
-    if($('#tick_descrip').summernote('isEmpty') || $('#tick_titulo').val()==''){
+    if ($('#tick_descrip').summernote('isEmpty') || $('#tick_titulo').val()=='') {
 
+        /* TODO: Alerta de Confirmación */
         swal.fire({
-            icon: 'warning',
-            title: 'Campos Faltantes',
-            text:'En el registro',
+            icon: 'error',
+            title: 'Datos faltantes',
             showConfirmButton: false,
             timer: 1500
-        });
-    
-     }else{
+        }); 
+        
+    }else{
+
+        var totalfiles = $('#fileElem').val().length;
+        for (var i = 0; i < totalfiles; i++) {
+            formData.append("files[]", $('#fileElem')[0].files[i]);
+        }
+           
+
+          /* TODO: Guardar Ticket */
         $.ajax({
-            url:"../../controller/ticket.php?op=insert",
-            type:"POST",
-            data:formData,
-            contentType:false,
-            processData:false,
+            url: "../../controller/ticket.php?op=insert",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function(data){
-                console.log(data); 
-            
+             
+                data = JSON.parse(data);
+                console.log(data);
+               
+
+
+                /* TODO: Envio de alerta Email de ticket Abierto */
+                 $.post("../../controller/email.php?op=ticket_abierto", {tick_id : data[0].tick_id}, function (data) {
+
+                });
+
+
+                /* TODO: Limpiar campos */
+               
                 $('#tick_titulo').val('');
                 $('#tick_descrip').summernote('reset');
+                $('#fileElem').val('');
 
+
+                /* TODO: Alerta de Confirmación */
                 swal.fire({
                     icon: 'success',
                     title: 'Ticket Registrado',
                     text:'En el sistema',
                     showConfirmButton: false,
                     timer: 1500
-                });
-
-
-                
+                }); 
             }
-
         });
 
-}
 
+    }
+    
 
-   
-}
+      
+       
+    }
+
 
 init();
+
+
+
+

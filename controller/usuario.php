@@ -89,7 +89,7 @@
                 }
                 echo $html;
               }
-            break;
+        break;
 
        /*  TODO:METODOS Y SERVICIOS PARA MOSTRAR LA CANTIDAD TOTAL DE TICKETS, TOTAL ABIERTOS TOTAL CERRADOS POR USUARIO */
 
@@ -121,6 +121,7 @@
         break;
 
 
+
          /* TODO:Metodo mostar el total tickets Cerrado por Usuario del Controlador Usuario  por id*/
         case"totalcerrado":
             $datos=$usuario->get_totalticket_cerrado_x_id($_POST["usu_id"]);
@@ -136,6 +137,7 @@
 
 
 
+
          /* TODO:Metodo mostrar graficos estadisticos Cant de ticket x Categoria */
         case 'grafico':
         
@@ -143,8 +145,28 @@
      
             echo json_encode($datos);
      
-         break;
+        break;
 
+            /*TODO: Controller para actualizar contraseña */
+         /* case "password":
+                $cifrado = openssl_encrypt($_POST["usu_pass"], $cipher, $key, OPENSSL_RAW_DATA, $iv);
+                $textoCifrado = base64_encode($iv . $cifrado);
+    
+                $usuario->update_usuario_pass($_POST["usu_id"],$textoCifrado);
+         break; */
+
+
+
+    
+        /* case "correo":
+                $datos=$usuario->get_usuario_x_correo($_POST["usu_correo"]);
+                if(is_array($datos)==true and count($datos)>0){
+    
+                    echo "Existe";
+                }else{
+                    echo "Error";
+                }
+        break; */
 
     
    

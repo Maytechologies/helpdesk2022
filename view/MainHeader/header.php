@@ -22,6 +22,7 @@
 	                            <img src="../../public/img/<?php echo $_SESSION["rol_id"]?>.jpg" alt="">
 	                        </button>
 							<input type="hidden" id="user_idx" value="<?php echo $_SESSION["usu_id"]?>"> <!-- ID del Usuario -->
+							
 							<input type="hidden" id="rol_idx" value="<?php echo $_SESSION["rol_id"]?>">  <!-- ROL del Usuario -->
 
 	                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
