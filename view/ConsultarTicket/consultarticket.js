@@ -176,6 +176,12 @@ function guardar(e){
         processData: false,
         success: function(datos){
             console.log(datos);
+
+            /* TODO: Envio de alerta Email de ticket Asignado */
+            var tick_id = $('#tick_id').val();
+            $.post("../../controller/email.php?op=ticket_asignado", {tick_id:tick_id}, function (data) {
+
+            });
             $('#ticket_data').DataTable().ajax.reload(); 
             $('#modal').modal('hide');
             

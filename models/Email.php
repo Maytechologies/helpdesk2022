@@ -65,6 +65,8 @@ class Email extends PHPMailer{
 
 
 
+
+
     public function ticket_cerrado($tick_id){
         $ticket = new Ticket();
         $datos = $ticket->listar_ticket_x_id($tick_id);
@@ -78,19 +80,27 @@ class Email extends PHPMailer{
 
         //IGual//
         $this->IsSMTP();
-        $this->Host = 'smtp.office365.com';//Aqui el server
-        $this->Port = 587;//Aqui el puerto
+        $this->Host = 'smtp.titan.email';//Aqui el server
+        $this->Port = 465;//Aqui el puerto
         $this->SMTPAuth = true;
         $this->Username = $this->gcorreo;
         $this->Password = $this->gContrasena;
         $this->From = $this->gcorreo;
         $this->SMTPSecure = 'tls';
-        $this->FromName = "Ticket Cerrado ";
+        
+        $this->SMTPSecure = true;
+        $this->FromName =  "Ticket Cerrado ";
         $this->CharSet = 'UTF8';
+
         $this->addAddress($correo);
+        $this->addAddress("staroffic@gmail.com");
         $this->WordWrap = 50;
-        $this->IsHTML(true);
-        $this->Subject = "Ticket Cerrado";
+        $this->IsHTML(true);//Permite html
+
+        $this->Subject = "MAYTECH Ticket Cerrado"; //Asunto
+        //Igual//
+
+
         //Igual//
         $cuerpo = file_get_contents('../public/CerradoTicket.html'); /* Ruta del template en formato HTML */
         /* parametros del template a remplazar */
@@ -103,6 +113,8 @@ class Email extends PHPMailer{
         $this->AltBody = strip_tags("Ticket Cerrado");
         return $this->Send();
     }
+
+
 
 
 
@@ -119,19 +131,25 @@ class Email extends PHPMailer{
 
         //IGual//
         $this->IsSMTP();
-        $this->Host = 'smtp.office365.com';//Aqui el server
-        $this->Port = 587;//Aqui el puerto
+        $this->Host = 'smtp.titan.email';//Aqui el server
+        $this->Port = 465;//Aqui el puerto
         $this->SMTPAuth = true;
         $this->Username = $this->gcorreo;
         $this->Password = $this->gContrasena;
         $this->From = $this->gcorreo;
         $this->SMTPSecure = 'tls';
-        $this->FromName = "Ticket Asignado ";
+        
+        $this->SMTPSecure = true;
+        $this->FromName =  "Ticket Asignado ";
         $this->CharSet = 'UTF8';
+
         $this->addAddress($correo);
+        $this->addAddress("staroffic@gmail.com");
         $this->WordWrap = 50;
-        $this->IsHTML(true);
-        $this->Subject = "Ticket Asignado";
+        $this->IsHTML(true);//Permite html
+
+        $this->Subject = "MAYTECH Ticket signadoo"; //Asunto
+        //Igual//
         //Igual//
         $cuerpo = file_get_contents('../public/AsignarTicket.html'); /* Ruta del template en formato HTML */
         /* parametros del template a remplazar */

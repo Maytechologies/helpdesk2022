@@ -29,6 +29,7 @@
         $sql->execute();
         return $resultado=$sql->fetchAll();
      }
+     
 
      /* TODO: Listar ticket segun id de usuario */
      public function listar_ticket_x_usu($usu_id){
@@ -41,6 +42,8 @@
         return $resultado=$sql->fetchAll();
         /* pdo::FETCH_ASSOC */
      }
+
+
 
         /* TODO: Listar todos los tickets en DataTable para Soporte*/
       public function listar_ticket(){

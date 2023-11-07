@@ -132,6 +132,11 @@ $(document).ready(function(){
 
                 });
 
+                /* TODO: Envio de alerta Email de ticket Cerrado */
+                $.post("../../controller/email.php?op=ticket_cerrado", {tick_id:tick_id}, function (data) {
+
+                });
+
                 listardetalle(tick_id);
 
 
